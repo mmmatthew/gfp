@@ -4,3 +4,22 @@ node_js:
 cache:
   directories:
     - "node_modules"
+
+script:
+  - npm run test
+
+before_deploy:
+ - pnm run build
+
+deploy:
+  - on:
+      all_branches: true
+      condition: $TRAVIS_BRANCH != stable
+    upload-dir: snapshot/${TRAVIS_COMMIT::7}
+    provider: gcs
+    access_key_id: $GCS_ACCESS_KEY_ID
+    secret_access_key: $GCS_SECRET_KEY
+    bucket: "wf-deploy-beta"
+    local_dir: ./dist
+    skip_cleanup: true
+    wait-until-deployed: true
