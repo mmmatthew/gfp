@@ -9,7 +9,7 @@ script:
   - npm run test
 
 before_deploy:
- - pnm run build
+ - npm run build
 
 deploy:
   - on:
