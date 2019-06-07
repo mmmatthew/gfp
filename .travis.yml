@@ -36,12 +36,5 @@ deploy:
   # release a version when on master and commit is tagged
   - <<: *gcs_deploy
     on:
-      tags: true
-    upload-dir: ${TRAVIS_TAG:1}
-
-  - on:
       branch: stable
-      # check that current commit does not have a tag yet, otherwise infinite commit/build loops
-      condition: -z $(git tag --points-at $TRAVIS_COMMIT)
-    provider: script
-    script: $TRAVIS_BUILD_DIR/bin/travis_release.sh
+    upload-dir: stable
